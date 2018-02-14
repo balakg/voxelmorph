@@ -3,7 +3,7 @@
 Initial version of voxelmorph code.
 
 
-##Notes
+## Notes
 - Code is written in python 2.7. A 3.5 version is on the way!
 
 - We are currently cleaning up our code for general use. There are several hard-coded elements related
