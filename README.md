@@ -17,13 +17,13 @@ to data preprocessing and format. You will likely need to rewrite some of the da
 Guha Balakrishnan, Amy Zhao, Mert R. Sabuncu, John Guttag, Adrian V. Dalca  
 [eprint arXiv:1802.02604](https://arxiv.org/abs/1802.02604)
 
-##Instructions:
+## Instructions
 
-###Training:
+### Training:
 
 1. Change base_data_dir in train.py to the location of your image files.
 2. Run train.py <model_name> <gpu-id> 
 
-###Testing (Dice scores):
+### Testing (Dice scores):
 Put test filenames in data/test_examples.txt, and anatomical labels in data/test_labels.mat.
 1. Run test.py <model_name> <gpu-id> <iter-num>
