@@ -22,8 +22,8 @@ Guha Balakrishnan, Amy Zhao, Mert R. Sabuncu, John Guttag, Adrian V. Dalca
 ### Training:
 
 1. Change base_data_dir in train.py to the location of your image files.
-2. Run train.py <model_name> <gpu-id> 
+2. Run train.py [model_name] [gpu-id] 
 
 ### Testing (Dice scores):
 Put test filenames in data/test_examples.txt, and anatomical labels in data/test_labels.mat.
-1. Run test.py <model_name> <gpu-id> <iter-num>
+1. Run test.py [model_name] [gpu-id] [iter-num]
