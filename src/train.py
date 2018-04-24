@@ -26,7 +26,7 @@ import losses
 
 
 vol_size = (160, 192, 224)
-#base_data_dir = '/insert/your/path/here'
+base_data_dir = '/insert/your/path/here'
 #base_data_dir = '/data/vision/polina/projects/ADNI/work/neuron/data/t1_mix/proc/resize256-crop_x32/'
 train_vol_names = glob.glob(base_data_dir + 'train/vols/*.npz')
 random.shuffle(train_vol_names)
@@ -100,21 +100,24 @@ def printLoss(step, training, train_loss):
 if __name__ == "__main__":
 
     parser = ArgumentParser()
-    parser.add_argument("--model", type=str, 
-						dest="model", choices=['vm1','vm2'],
-						default='vm2',help="Voxelmorph-1 or 2")
+    parser.add_argument("--model", type=str,dest="model", 
+                        choices=['vm1','vm2'],default='vm2',
+                        help="Voxelmorph-1 or 2")
     parser.add_argument("--save_name", type=str,required=True,
-						dest="save_name", help="Name of model when saving")
+                        dest="save_name", help="Name of model when saving")
     parser.add_argument("--gpu", type=int,default=0,
-						dest="gpu_id", help="gpu id number")
+                        dest="gpu_id", help="gpu id number")
     parser.add_argument("--lr", type=float, 
-						dest="lr", default=1e-4,help="learning rate") 
+                        dest="lr", default=1e-4,help="learning rate") 
     parser.add_argument("--iters", type=int, 
-						dest="n_iterations", default=150000,help="number of iterations")
+                        dest="n_iterations", default=150000,
+                        help="number of iterations")
     parser.add_argument("--lambda", type=float, 
-						dest="reg_param", default=1.0,help="regularization parameter")
+                        dest="reg_param", default=1.0,
+                        help="regularization parameter")
     parser.add_argument("--checkpoint_iter", type=int,
-						dest="model_save_iter", default=5000, help="frequency of model saves")
+						dest="model_save_iter", default=5000, 
+                        help="frequency of model saves")
 
     args = parser.parse_args()
     train(**vars(args))
