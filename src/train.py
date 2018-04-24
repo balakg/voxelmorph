@@ -116,7 +116,7 @@ if __name__ == "__main__":
                         dest="reg_param", default=1.0,
                         help="regularization parameter")
     parser.add_argument("--checkpoint_iter", type=int,
-						dest="model_save_iter", default=5000, 
+                        dest="model_save_iter", default=5000, 
                         help="frequency of model saves")
 
     args = parser.parse_args()
