@@ -27,7 +27,6 @@ import losses
 
 vol_size = (160, 192, 224)
 base_data_dir = '/insert/your/path/here'
-#base_data_dir = '/data/vision/polina/projects/ADNI/work/neuron/data/t1_mix/proc/resize256-crop_x32/'
 train_vol_names = glob.glob(base_data_dir + 'train/vols/*.npz')
 random.shuffle(train_vol_names)
 
