@@ -18,7 +18,7 @@ from medipy.metrics import dice
 import datagenerators
 
 
-def test(model_name, gpu_id, iter_num, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=[32,32,32,32,8,8,3]):
+def test(model_name, iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=[32,32,32,32,32,16,16,3]):
 	"""
 	test
 
@@ -30,11 +30,8 @@ def test(model_name, gpu_id, iter_num, vol_size=(160,192,224), nf_enc=[16,32,32,
 
 	gpu = '/gpu:' + str(gpu_id)
 
-	# Test file and anatomical labels we want to evaluate
-	test_brain_file = open('../data/test_examples.txt')
-	test_brain_strings = test_brain_file.readlines()
-	test_brain_strings = [x.strip() for x in test_brain_strings]
-	good_labels = sio.loadmat('../data/test_labels.mat')['labels'][0]
+	# Anatomical labels we want to evaluate
+	labels = sio.loadmat('../data/labels.mat')['labels'][0]
 
 	atlas = np.load('../data/atlas_norm.npz')
 	atlas_vol = atlas['vol']
@@ -52,36 +49,24 @@ def test(model_name, gpu_id, iter_num, vol_size=(160,192,224), nf_enc=[16,32,32,
 		net.load_weights('../models/' + model_name +
                          '/' + str(iter_num) + '.h5')
 
-	n_batches = len(test_brain_strings)
 	xx = np.arange(vol_size[1])
 	yy = np.arange(vol_size[0])
 	zz = np.arange(vol_size[2])
 	grid = np.rollaxis(np.array(np.meshgrid(xx, yy, zz)), 0, 4)
 
-	dice_vals = np.zeros((len(good_labels), n_batches))
+	X_vol, X_seg = datagenerators.load_example_by_name('../data/test_vol.npz', '../data/test_seg.npz')
 
-	np.random.seed(17)
+	with tf.device(gpu):
+		pred = net.predict([X_vol, atlas_vol])
 
-	for k in range(0, n_batches):
-		vol_name, seg_name = test_brain_strings[k].split(",")
-		X_vol, X_seg = datagenerators.load_example_by_name(vol_name, seg_name)
+	# Warp segments with flow
+	flow = pred[1][0, :, :, :, :]
+	sample = flow+grid
+	sample = np.stack((sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
+	warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
 
-		with tf.device(gpu):
-			pred = net.predict([X_vol, atlas_vol])
-
-		# Warp segments with flow
-		flow = pred[1][0, :, :, :, :]
-		sample = flow+grid
-		sample = np.stack(
-			(sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
-		warp_seg = interpn(
-			(yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
-
-		vals, labels = dice(warp_seg, atlas_seg, labels=good_labels, nargout=2)
-		dice_vals[:, k] = vals
-		print np.mean(dice_vals[:, k])
-
-		#sio.savemat('../results/test/' + model_name + '_' + iter_num + '.mat', {'dice_vals': dice_vals, 'labels': good_labels})
+	vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
+	print(np.mean(vals), np.std(vals))
 
 
 if __name__ == "__main__":
