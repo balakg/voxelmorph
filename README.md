@@ -1,4 +1,6 @@
 # voxelmorph
+This repository is now defunct. The project has been moved to https://github.com/voxelmorph/voxelmorph
+# voxelmorph
 
 The voxelmorph code is being finalized (i.e. cleaned up :) ). Should be up momentarirly.  
 Stay tuned :)
