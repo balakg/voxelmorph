@@ -1,10 +1,10 @@
 # voxelmorph
 
-Initial version of voxelmorph code.
-
+The voxelmorph code is being finalized (i.e. cleaned up :) ). Should be up momentarirly.  
+Stay tuned :)
 
 ## Notes
-- Code is written in python 2.7. A 3.5 version is on the way!
+- Code was initially written in python 2.7, and now transfered to 3.5. 
 
 - We are currently cleaning up our code for general use. There are several hard-coded elements related
 to data preprocessing and format. You will likely need to rewrite some of the data loading code in 
@@ -13,6 +13,11 @@ to data preprocessing and format. You will likely need to rewrite some of the da
 - We provide the atlas used in our papers at data/atlas_norm.npz.
 
 ## Papers
+**Unsupervised Learning for Fast Probabilistic Diffeomorphic Registration**  
+Adrian V. Dalca, Guha Balakrishnan, John Guttag, Mert R. Sabuncu
+[eprint arXiv:](?)
+
+
 **An Unsupervised Learning Model for Deformable Medical Image Registration**  
 Guha Balakrishnan, Amy Zhao, Mert R. Sabuncu, John Guttag, Adrian V. Dalca  
 [eprint arXiv:1802.02604](https://arxiv.org/abs/1802.02604)
